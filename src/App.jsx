@@ -169,7 +169,7 @@ function App() {
       </div>
       <main>
       <header className="site-header">
-        <a className="brand" href="#inicio" aria-label="Voltar ao início">
+        <a className="brand" href="#inicio" aria-label="Isabelly Rufino — voltar ao início">
           {profileImages[0] && !profileImageFailed ? (
             <img
               className="brand-photo"
@@ -180,7 +180,9 @@ function App() {
           ) : (
             <span className="brand-mark">I</span>
           )}
-          <span>ISABELLY</span>
+          <span className="brand-monogram" aria-hidden="true">IR</span>
+          <span className="brand-divider" aria-hidden="true" />
+          <span className="brand-name">Isabelly Rufino</span>
         </a>
         <nav className="header-links" aria-label="Canais de contato">
           <a className="header-link" href={instagramLink} target="_blank" rel="noreferrer">
@@ -192,7 +194,7 @@ function App() {
         </nav>
       </header>
 
-      <div className="highlight-strip" role="note">
+      <div className="highlight-strip" role="note" tabIndex={0} aria-label="Destaques da página. Deslize horizontalmente para ver todos.">
         <div className="section-shell highlight-strip-inner">
           <span>Atendimento em todo o Brasil</span>
           <span aria-hidden="true">•</span>
@@ -255,7 +257,9 @@ function App() {
               <div className="category-content">
                 <div className="category-title-row">
                   <h3>{category.title}</h3>
-                  <span className="category-status">Disponível</span>
+                  <span className="category-index" aria-label={`Categoria ${index + 1}`}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
                 </div>
                 <p>{category.description}</p>
                 <div className="category-meta">
@@ -274,7 +278,7 @@ function App() {
             <p className="eyebrow">Por que negociar com a Isabelly?</p>
             <h2>Mais clareza para uma decisão importante.</h2>
           </div>
-          <p>Você encontra orientação em cada etapa, do primeiro contato à logística.</p>
+          <p>Orientação prática para escolher a máquina e planejar os próximos passos.</p>
         </div>
         <div className="why-grid">
           <article className="why-card">
@@ -295,7 +299,7 @@ function App() {
           <article className="why-card">
             <span className="why-number">04</span>
             <h3>Visão completa</h3>
-            <p>Além da máquina, você recebe orientação sobre crédito e logística para planejar melhor.</p>
+            <p>Orientação sobre crédito e logística, conforme o perfil da sua negociação.</p>
           </article>
         </div>
       </section>
@@ -311,23 +315,8 @@ function App() {
         <div className="about-copy">
           <p className="eyebrow">Quem está com você</p>
           <h2>Atendimento próximo para você negociar com confiança.</h2>
-          <p>Meu objetivo é entender o que você precisa e ajudar a encontrar uma solução que combine com o seu momento e com a sua operação.</p>
-          <p>Conte comigo para consultar opções, esclarecer condições e acompanhar os próximos passos com transparência.</p>
+          <p>Meu objetivo é entender sua operação, apresentar opções alinhadas ao que você procura e acompanhar os próximos passos com transparência.</p>
           <a className="about-link" href={instagramLink} target="_blank" rel="noreferrer"><InstagramIcon /> Conheça mais no Instagram</a>
-        </div>
-      </section>
-
-      <section className="consulting" data-reveal>
-        <div className="section-shell consulting-inner">
-          <div>
-            <p className="eyebrow">Do seu jeito</p>
-            <h2>Negociação clara, do primeiro contato ao fechamento.</h2>
-          </div>
-          <div className="benefit-list">
-            <div><span>01</span><p><strong>Atendimento consultivo</strong> para encontrar uma condição que faça sentido para você.</p></div>
-            <div><span>02</span><p><strong>Crédito imobiliário e rural</strong> para viabilizar sua compra com mais tranquilidade.</p></div>
-            <div><span>03</span><p><strong>Logística incluída</strong> e acompanhamento próximo em todo o processo.</p></div>
-          </div>
         </div>
       </section>
 
@@ -359,33 +348,41 @@ function App() {
       </section>
 
       <section className="faq section-shell" data-reveal>
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Dúvidas frequentes</p>
-            <h2>Informação para escolher melhor.</h2>
-          </div>
-        </div>
-        <div className="faq-list">
-          {frequentlyAskedQuestions.map((item, index) => {
-            const isOpen = openQuestion === index;
-            return (
-              <div className={isOpen ? 'faq-item is-open' : 'faq-item'} key={item.question}>
-                <button
-                  type="button"
-                  className="faq-question"
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${index}`}
-                  onClick={() => setOpenQuestion(isOpen ? null : index)}
-                >
-                  <span>{item.question}</span>
-                  <span aria-hidden="true">{isOpen ? '−' : '+'}</span>
-                </button>
-                <div className="faq-answer" id={`faq-answer-${index}`} hidden={!isOpen}>
-                  <p>{item.answer}</p>
+        <div className="faq-layout">
+          <aside className="faq-aside">
+            <div className="faq-sticky">
+              <p className="eyebrow">Dúvidas frequentes</p>
+              <div className="faq-title-lockup">
+                <span className="faq-rail" aria-hidden="true" />
+                <div>
+                  <span className="faq-index" aria-hidden="true">05</span>
+                  <h2>Informação para escolher melhor.</h2>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          </aside>
+          <div className="faq-list">
+            {frequentlyAskedQuestions.map((item, index) => {
+              const isOpen = openQuestion === index;
+              return (
+                <div className={isOpen ? 'faq-item is-open' : 'faq-item'} key={item.question}>
+                  <button
+                    type="button"
+                    className="faq-question"
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-answer-${index}`}
+                    onClick={() => setOpenQuestion(isOpen ? null : index)}
+                  >
+                    <span>{item.question}</span>
+                    <span aria-hidden="true">{isOpen ? '−' : '+'}</span>
+                  </button>
+                  <div className="faq-answer" id={`faq-answer-${index}`} hidden={!isOpen}>
+                    <p>{item.answer}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -401,16 +398,12 @@ function App() {
       </section>
 
       <footer className="site-footer section-shell">
-        <span>ISABELLY</span>
+        <span className="footer-signature">ISABELLY RUFINO</span>
         <span>Atendimento em todo o Brasil</span>
       </footer>
       <a className="floating-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer" aria-label="Falar com Isabelly pelo WhatsApp">
         <WhatsAppIcon />
         <span>WhatsApp</span>
-      </a>
-      <a className="floating-instagram" href={instagramLink} target="_blank" rel="noreferrer" aria-label="Visitar o Instagram da Isabelly">
-        <InstagramIcon />
-        <span>Instagram</span>
       </a>
       </main>
     </>

@@ -7,9 +7,10 @@ import Pending from './components/Pending.jsx';
 import SimulationForm from './components/SimulationForm.jsx';
 import { InstagramIcon, MenuIcon, StepIcon, WhatsAppIcon } from './components/Icons.jsx';
 import {
+  acquisitionPaths,
+  acquisitionWhatsappMessage,
   buildWhatsappLink,
   company,
-  comparisonRows,
   consortiumSteps,
   frequentlyAskedQuestions,
   heroFacts,
@@ -31,7 +32,7 @@ const introVideo = Object.values(
 
 const navLinks = [
   ['#como-funciona', 'Como funciona'],
-  ['#comparativo', 'Consórcio x financiamento'],
+  ['#possibilidades', 'Possibilidades'],
   ['#isabelly', 'Sobre a Isabelly'],
   ['#duvidas', 'Dúvidas'],
 ];
@@ -229,40 +230,32 @@ function App() {
           </div>
         </section>
 
-        <section className="comparison section-shell" id="comparativo">
+        <section className="paths section-shell" id="possibilidades">
           <div className="section-heading" data-reveal>
             <div>
-              <p className="eyebrow">Consórcio ou financiamento?</p>
-              <h2>A escolha certa depende do seu momento.</h2>
+              <p className="eyebrow">Crédito para aquisição de máquinas</p>
+              <h2>Encontre o caminho certo para adquirir sua próxima máquina.</h2>
             </div>
-            <p>Cada caminho tem custos e vantagens. Veja as diferenças lado a lado.</p>
+            <p>
+              Cada operação tem necessidades diferentes. Conheça as possibilidades e converse com a Isabelly para
+              entender qual alternativa faz sentido para o seu negócio.
+            </p>
           </div>
-          <div className="comparison-table-wrap" data-reveal>
-            <table className="comparison-table">
-              <caption className="sr-only">Comparativo entre consórcio e financiamento</caption>
-              <thead>
-                <tr>
-                  <th scope="col"><span className="sr-only">Critério</span></th>
-                  <th scope="col" className="is-featured">Consórcio</th>
-                  <th scope="col">Financiamento</th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparisonRows.map((row) => (
-                  <tr key={row.label}>
-                    <th scope="row">{row.label}</th>
-                    <td className="is-featured" data-label="Consórcio">{row.consortium}</td>
-                    <td data-label="Financiamento">{row.financing}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <ul className="paths-grid" data-reveal>
+            {acquisitionPaths.map((path) => (
+              <li key={path.title} className="path-card">
+                <StepIcon name={path.icon} />
+                <h3>{path.title}</h3>
+                <p>{path.text}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="paths-cta" data-reveal>
+            <p>Conte qual máquina você procura. A Isabelly responde com as possibilidades para o seu caso.</p>
+            <a className="button button-primary" href={buildWhatsappLink(acquisitionWhatsappMessage)} target="_blank" rel="noreferrer">
+              <WhatsAppIcon /> Quero avaliar minhas possibilidades
+            </a>
           </div>
-          <p className="comparison-note" data-reveal>
-            O custo total depende das condições de cada proposta. Compare o custo efetivo das opções antes de
-            decidir. Se você precisa da máquina imediatamente, o consórcio pode não ser o melhor caminho, e a
-            Isabelly vai te dizer isso.
-          </p>
         </section>
 
         <section className="rhythm" aria-labelledby="rhythm-title">

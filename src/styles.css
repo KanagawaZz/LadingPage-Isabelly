@@ -118,19 +118,16 @@ p { text-wrap: pretty; }
 .steps-cta p { color: var(--cream); font-size: 16px; line-height: 1.6; margin: 0; max-width: 620px; }
 .steps-cta .text-link { flex: 0 0 auto; }
 
-/* Comparativo */
-.comparison { padding-bottom: var(--section-space); }
-.comparison-table-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-.comparison-table { border-collapse: collapse; font-size: 15px; width: 100%; }
-.comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); line-height: 1.5; padding: 20px 24px; text-align: left; vertical-align: top; }
-.comparison-table tbody tr:last-child th, .comparison-table tbody tr:last-child td { border-bottom: 0; }
-.comparison-table thead th { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
-.comparison-table thead th.is-featured { color: var(--accent); }
-.comparison-table tbody th { color: var(--muted); font-weight: 500; width: 24%; }
-.comparison-table td { color: var(--muted); width: 38%; }
-.comparison-table td.is-featured { color: var(--cream); }
-.comparison-table .is-featured { background: var(--accent-soft); }
-.comparison-note { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 24px 0 0; max-width: 760px; }
+/* Crédito para aquisição de máquinas */
+.paths { padding-bottom: var(--section-space); }
+.paths .section-heading > p { max-width: 380px; }
+.paths-grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); list-style: none; margin: 0; padding: 0; }
+.path-card { background: var(--navy-3); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px 28px; }
+.path-card .step-icon { margin-bottom: 28px; }
+.path-card p { color: var(--muted); font-size: 15px; line-height: 1.65; margin: 12px 0 0; }
+.paths-cta { align-items: center; border-top: 1px solid var(--line); display: flex; gap: 40px; justify-content: space-between; margin-top: 40px; padding-top: 32px; }
+.paths-cta p { color: var(--cream); font-size: 17px; line-height: 1.55; margin: 0; max-width: 560px; }
+.paths-cta .button { flex: 0 0 auto; }
 
 /* Ritmo das parcelas */
 .rhythm { background: var(--navy-2); border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); }
@@ -363,16 +360,12 @@ p { text-wrap: pretty; }
   .step-top { margin-bottom: 16px; }
   .steps-cta { align-items: flex-start; flex-direction: column; gap: 20px; margin-top: 32px; }
 
-  /* Comparativo em cartões no celular */
-  .comparison-table-wrap { border: 0; border-radius: 0; overflow: visible; }
-  .comparison-table, .comparison-table tbody, .comparison-table tr, .comparison-table th, .comparison-table td { display: block; width: 100%; }
-  .comparison-table thead { display: none; }
-  .comparison-table tr { border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
-  .comparison-table tbody th { border-bottom: 1px solid var(--line); color: var(--cream); font-size: 15px; font-weight: 600; padding: 14px 16px; width: 100%; }
-  .comparison-table td { border-bottom: 0; display: grid; font-size: 14px; gap: 12px; grid-template-columns: 104px 1fr; padding: 12px 16px; width: 100%; }
-  .comparison-table td::before { color: var(--quiet); content: attr(data-label); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding-top: 2px; text-transform: uppercase; }
-  .comparison-table td.is-featured::before { color: var(--accent); }
-  .comparison-table td:last-child { border-top: 1px solid var(--line); }
+  .paths-grid { grid-template-columns: 1fr; }
+  .paths-cta { align-items: stretch; flex-direction: column; gap: 20px; margin-top: 32px; }
+  .paths-cta .button { text-align: center; }
+  .paths-cta p { font-size: 16px; }
+  .path-card { padding: 26px 22px; }
+  .path-card .step-icon { margin-bottom: 20px; }
 
   .rhythm-inner { padding-bottom: 72px; padding-top: 72px; }
   .rhythm-item { gap: 6px; grid-template-columns: 1fr; padding: 22px 0; }

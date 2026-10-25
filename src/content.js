@@ -45,14 +45,27 @@ export const consortiumSteps = [
   },
 ];
 
-export const comparisonRows = [
-  { label: 'Acesso ao crédito', consortium: 'Na contemplação, por sorteio ou lance', financing: 'Após a aprovação do crédito' },
-  { label: 'Juros', consortium: 'Não há juros remuneratórios', financing: 'Há juros, definidos em contrato' },
-  { label: 'Outros custos', consortium: 'Taxa de administração, fundo de reserva e seguros, quando houver', financing: 'Tarifas, IOF e seguros, quando houver' },
-  { label: 'Reajuste', consortium: 'Carta e parcelas podem ser reajustadas, conforme o contrato', financing: 'Conforme o contrato, com taxa fixa ou variável' },
-  { label: 'Data da compra', consortium: 'Sem data garantida', financing: 'Definida pela aprovação' },
-  { label: 'Faz mais sentido para', consortium: 'Quem pode planejar a aquisição', financing: 'Quem precisa da máquina imediatamente' },
+// Seção "Crédito para aquisição de máquinas". O bloco de estratégias mantém visível
+// como o crédito é liberado (contemplação, sem data garantida).
+export const acquisitionPaths = [
+  {
+    icon: 'plan',
+    title: 'Planejamento financeiro',
+    text: 'Parcelas mensais, semestrais ou anuais, sem juros de financiamento, para a aquisição caber no fluxo de caixa da sua operação.',
+  },
+  {
+    icon: 'draw',
+    title: 'Estratégias de aquisição',
+    text: 'O crédito é liberado na contemplação, por sorteio ou lance. Não há data garantida, mas uma boa estratégia de lance pode antecipar a compra.',
+  },
+  {
+    icon: 'group',
+    title: 'Orientação personalizada',
+    text: 'Converse com a Isabelly sobre a máquina que você procura e avalie qual alternativa faz sentido para o seu momento.',
+  },
 ];
+
+export const acquisitionWhatsappMessage = 'Olá, Isabelly! Acessei sua página e gostaria de entender as possibilidades de crédito para adquirir uma máquina para minha operação.';
 
 export const paymentRhythms = [
   { title: 'Mensal', text: 'Para operações com receita constante ao longo do ano, como frete e prestação de serviços.' },

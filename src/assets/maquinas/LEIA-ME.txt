@@ -1,16 +1,25 @@
-Fotos da página
-===============
+Fotos e vídeos da página
+========================
 
-A página usa as imagens da pasta src/assets/pagina/ (em WebP, já otimizadas):
+A página usa os arquivos da pasta src/assets/pagina/:
 
+- hero.webp           -> imagem de fundo do topo (também é o "poster" do vídeo)
 - isabelly.webp       -> foto da Isabelly (topo, seção "Quem cuida do seu plano" e formulário)
-- linha-amarela.webp  -> card "Linha amarela"
-- agro.webp           -> card "Agro"
-- faixa.webp          -> faixa "Parcelas no ritmo da sua operação"
+- linha-amarela.webp  -> foto principal da seção "O que a carta de crédito pode comprar"
+- agro.webp           -> foto menor da mesma seção
+
+Vídeos opcionais (basta salvar o arquivo com este nome; nenhum código precisa mudar):
+
+- hero.mp4                    -> vídeo de fundo do topo. 8 a 10 s, sem áudio, 1920 x 1080,
+                                 H.264, idealmente até 4 MB. Só toca em telas maiores, sem
+                                 "movimento reduzido" e sem economia de dados; no celular
+                                 aparece a imagem hero.webp. Um hero.webm é usado se existir.
+- isabelly-apresentacao.mp4   -> vídeo de apresentação (30 a 45 s), com controles e sem
+                                 reprodução automática.
 
 Para trocar uma foto, substitua o arquivo mantendo o mesmo nome. Prefira WebP com
 até 1600 px de largura e cerca de 200 KB.
 
-As pastas desta pasta (maquinas/) guardam as fotos originais e NÃO são mais usadas
-pela página. As fotos de máquinas são provisórias: antes de publicar, troque-as por
-fotos próprias ou com licença de uso.
+As pastas desta pasta (maquinas/) guardam as fotos originais e NÃO são usadas pela
+página. As fotos de máquinas são provisórias: antes de publicar, troque-as por fotos
+próprias ou com licença de uso.

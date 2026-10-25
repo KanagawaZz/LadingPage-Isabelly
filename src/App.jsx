@@ -1,13 +1,22 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import Carousel from './Carousel.jsx';
+import { useEffect, useRef, useState } from 'react';
+import isabellyPhoto from './assets/pagina/isabelly.webp';
+import linhaAmarelaPhoto from './assets/pagina/linha-amarela.webp';
+import agroPhoto from './assets/pagina/agro.webp';
+import faixaPhoto from './assets/pagina/faixa.webp';
 
 const whatsappNumber = '556581313761';
-const whatsappMessage = encodeURIComponent(
-  'Olá, Isabelly! Vim pelo catálogo e gostaria de conhecer as máquinas disponíveis.',
-);
+const whatsappGreeting = 'Olá, Isabelly. Vim pela sua página e gostaria de informações sobre o consórcio de máquinas pesadas.';
+const whatsappLink = buildWhatsappLink(whatsappGreeting);
+const instagramLink = 'https://www.instagram.com/isabelly_rufino';
 
-const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
-const instagramLink = 'https://www.instagram.com/isabelly_rufino?stkn=cXdqbXp0b2R3cDVq';
+function buildWhatsappLink(message) {
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+// Marca no esboço o que ainda depende de confirmação. Basta trocar pelo texto final.
+function Pendente({ children }) {
+  return <mark className="pending" title="Pendente de confirmação">{children}</mark>;
+}
 
 function InstagramIcon() {
   return (
@@ -27,76 +36,238 @@ function WhatsAppIcon() {
   );
 }
 
-const categories = [
+const consortiumSteps = [
   {
-    title: 'Linha amarela',
-    description: 'Máquinas pesadas para construção, obras e infraestrutura.',
-    folder: '3-fotos-linha-amarela',
+    title: 'Você define o plano',
+    text: 'Valor da carta de crédito, prazo e forma de pagamento: mensal, semestral ou anual.',
   },
   {
-    title: 'Linha verde',
-    description: 'Equipamentos para o campo e operações rurais.',
-    folder: '4-fotos-linha-verde',
+    title: 'Entra em um grupo',
+    text: 'Você paga as parcelas, sem juros. O custo é a taxa de administração, diluída no plano.',
+  },
+  {
+    title: 'É contemplado',
+    text: 'Nas assembleias, por sorteio ou por lance. Com as parcelas em dia, você concorre todo mês.',
+  },
+  {
+    title: 'Compra à vista',
+    text: 'Com a carta de crédito, você escolhe a máquina, nova ou seminova, onde quiser, com nota fiscal.',
+  },
+];
+
+const comparisonRows = [
+  { label: 'Juros', consortium: 'Não há. Você paga a taxa de administração', financing: 'Sim, somados a tarifas e impostos' },
+  { label: 'Custo total', consortium: 'Costuma ser menor', financing: 'Costuma ser maior, por causa dos juros' },
+  { label: 'Quando a máquina chega', consortium: 'Após a contemplação, por sorteio ou lance', financing: 'Logo após a aprovação' },
+  { label: 'Parcelas', consortium: 'Mensais, semestrais ou anuais', financing: 'Em geral, mensais' },
+  { label: 'Indicado para', consortium: 'Quem pode planejar a compra', financing: 'Quem precisa da máquina agora' },
+];
+
+const purchaseOptions = [
+  {
+    title: 'Linha amarela',
+    text: 'Escavadeiras, pás carregadeiras, retroescavadeiras e motoniveladoras para mineração, obra e terraplenagem.',
+    image: linhaAmarelaPhoto,
+  },
+  {
+    title: 'Agro',
+    text: 'Tratores, colheitadeiras e implementos para a sua operação no campo.',
+    image: agroPhoto,
   },
   {
     title: 'Caminhões e carretas',
-    description: 'Opções novas e seminovas para diferentes operações.',
-    folder: '5-fotos-caminhoes-e-carretas',
+    text: 'Caminhões, carretas e implementos rodoviários para transporte e apoio à operação.',
+    image: null,
+  },
+];
+
+const serviceSteps = [
+  { title: 'Primeira conversa', text: 'Pelo WhatsApp: qual máquina você procura e quanto pode investir.' },
+  { title: 'Simulação', text: 'Opções de carta de crédito, prazo e parcelas, apresentadas com clareza.' },
+  { title: 'Análise', text: 'Envio dos documentos. A contratação é sujeita a análise de crédito.' },
+  { title: 'Assinatura', text: <>Presencial, na unidade do Grupo Capital em <Pendente>Cuiabá (MT)</Pendente>.</> },
+];
+
+const safetyPoints = [
+  {
+    title: 'Regulado pelo Banco Central',
+    text: 'O consórcio segue a Lei 11.795/2008. Antes de assinar, confira se a administradora é autorizada no site do Banco Central.',
+  },
+  {
+    title: 'Ninguém garante a data',
+    text: 'A contemplação acontece por sorteio ou lance. Desconfie de quem promete crédito liberado em prazo certo.',
+  },
+  {
+    title: 'Tudo está no contrato',
+    text: 'Taxa de administração, fundo de reserva e regras de lance ficam por escrito. Leia com calma antes de assinar.',
   },
 ];
 
 const frequentlyAskedQuestions = [
   {
-    question: 'Quais tipos de máquinas estão disponíveis?',
-    answer: 'Trabalhamos com máquinas da linha amarela, linha verde, caminhões e carretas. A disponibilidade muda conforme o estoque, então fale pelo WhatsApp para consultar as opções atuais.',
+    question: 'Onde está a máquina?',
+    answer: 'O consórcio não trabalha com estoque. Você recebe uma carta de crédito e, ao ser contemplado, escolhe a máquina, nova ou seminova, em concessionária, revenda ou de particular, com nota fiscal.',
   },
   {
-    question: 'Vocês atendem em todo o Brasil?',
-    answer: 'Sim. O atendimento é realizado para clientes de todo o Brasil, com orientação sobre a máquina e a logística de cada negociação.',
+    question: 'O consórcio tem juros?',
+    answer: 'Não. Os custos são a taxa de administração, o fundo de reserva e o seguro, quando houver. Todos aparecem na simulação e no contrato.',
   },
   {
-    question: 'As máquinas são novas ou seminovas?',
-    answer: 'Há opções novas e seminovas. Informações como modelo, ano, estado de conservação, localização e condições são confirmadas durante o atendimento.',
+    question: 'Quando recebo o crédito?',
+    answer: 'Na contemplação, que acontece nas assembleias do grupo, por sorteio ou por lance (livre ou embutido). Não existe data garantida, e para concorrer é preciso estar com as parcelas em dia.',
   },
   {
-    question: 'É possível consultar financiamento ou crédito?',
-    answer: 'A Isabelly pode orientar sobre alternativas de crédito rural e imobiliário conforme o perfil da negociação. As condições dependem de análise e aprovação.',
+    question: 'Quanto preciso para começar?',
+    answer: 'Depende do valor da carta e do plano escolhido. Na simulação, a Isabelly apresenta as opções para o seu caso, sem compromisso.',
   },
   {
-    question: 'Como faço para consultar uma máquina?',
-    answer: 'Veja as categorias e as fotos disponíveis nesta página. Depois, use o WhatsApp no topo ou o botão flutuante para informar o que você procura e receber as opções atuais.',
+    question: 'Posso usar minha máquina ou meu veículo no negócio?',
+    answer: <Pendente>As formas de lance aceitas seguem as regras de cada grupo. Consulte a Isabelly para avaliar o seu caso.</Pendente>,
+  },
+  {
+    question: 'Posso contratar com o nome negativado?',
+    answer: 'A adesão passa por análise da administradora. Fale com a Isabelly para entender a possibilidade no seu caso, sem promessa de aprovação.',
+  },
+  {
+    question: 'Preciso ir até a loja?',
+    answer: <>A conversa, a simulação e a análise são feitas à distância. A assinatura do contrato é presencial, na unidade do Grupo Capital em <Pendente>Cuiabá (MT)</Pendente>.</>,
+  },
+  {
+    question: 'Quais documentos preciso enviar?',
+    answer: (
+      <>
+        <strong>Pessoa física:</strong> documento oficial com foto (RG ou CNH), comprovante de residência atualizado e comprovante de renda.
+        <br />
+        <strong>Pessoa jurídica:</strong> contrato social ou requerimento de empresário, cartão CNPJ atualizado, comprovante de endereço comercial, documento com foto do responsável legal e comprovante de renda.
+      </>
+    ),
+  },
+  {
+    question: 'Quanto custa o atendimento da Isabelly?',
+    answer: 'Nada. A Isabelly é remunerada pela administradora. Você não paga nenhum valor diretamente a ela.',
   },
 ];
 
-// Cada subpasta em src/assets/maquinas vira uma galeria automaticamente.
-// Basta adicionar fotos numeradas (01.jpg, 02.jpg, ...) na pasta correta.
-const imageModules = import.meta.glob('./assets/maquinas/*/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', {
-  eager: true,
-  import: 'default',
-});
+const machineTypes = ['Linha amarela', 'Agro', 'Caminhão ou carreta', 'Implemento', 'Outro'];
+const valueRanges = ['Até R$ 500 mil', 'R$ 500 mil a R$ 1 milhão', 'R$ 1 a 2 milhões', 'R$ 2 a 3 milhões', 'Acima de R$ 3 milhões'];
+const initialRanges = ['Ainda não sei', 'Até R$ 100 mil', 'R$ 100 a 300 mil', 'R$ 300 a 600 mil', 'Acima de R$ 600 mil'];
+const termOptions = ['Curto', 'Médio', 'Longo'];
+const frequencyOptions = ['Mensal', 'Semestral', 'Anual'];
 
-const imagesByFolder = {};
-Object.entries(imageModules).forEach(([path, url]) => {
-  const match = path.match(/assets\/maquinas\/([^/]+)\//);
-  if (!match) return;
-  const folder = match[1];
-  (imagesByFolder[folder] ||= []).push({ path, url });
-});
-Object.values(imagesByFolder).forEach((files) => {
-  files.sort((a, b) => a.path.localeCompare(b.path, undefined, { numeric: true }));
-});
+const emptyForm = {
+  name: '',
+  city: '',
+  machineType: '',
+  machine: '',
+  condition: 'Nova',
+  value: '',
+  initial: '',
+  term: 'Médio',
+  frequency: 'Mensal',
+  consent: false,
+};
 
-function getFolderImages(folder) {
-  return (imagesByFolder[folder] || []).map((file) => file.url);
+function buildSimulationMessage(form) {
+  const machine = form.machine.trim() ? `${form.machineType} (${form.machine.trim()})` : form.machineType;
+  const lines = [
+    'Olá, Isabelly. Gostaria de simular um consórcio.',
+    '',
+    `Nome: ${form.name.trim()}`,
+    form.city.trim() ? `Cidade: ${form.city.trim()}` : null,
+    `Máquina: ${machine}, ${form.condition.toLowerCase()}`,
+    form.value ? `Valor aproximado: ${form.value}` : null,
+    form.initial ? `Disponível para investir no início: ${form.initial}` : null,
+    `Prazo: ${form.term.toLowerCase()} · Parcelas: ${form.frequency.toLowerCase()}`,
+  ];
+  return lines.filter((line) => line !== null).join('\n');
+}
+
+function ChoiceGroup({ legend, name, options, value, onChange }) {
+  return (
+    <fieldset className="choice-group">
+      <legend>{legend}</legend>
+      <div className="choice-options">
+        {options.map((option) => (
+          <label key={option} className={value === option ? 'choice is-selected' : 'choice'}>
+            <input type="radio" name={name} value={option} checked={value === option} onChange={() => onChange(option)} />
+            <span>{option}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+function SimulationForm() {
+  const [form, setForm] = useState(emptyForm);
+  const update = (field) => (value) => setForm((current) => ({ ...current, [field]: value }));
+  const handleInput = (field) => (event) => update(field)(event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    window.open(buildWhatsappLink(buildSimulationMessage(form)), '_blank', 'noopener');
+  };
+
+  return (
+    <form className="simulation-form" onSubmit={handleSubmit}>
+      <div className="form-grid">
+        <label className="field">
+          <span>Seu nome</span>
+          <input type="text" autoComplete="name" required value={form.name} onChange={handleInput('name')} />
+        </label>
+        <label className="field">
+          <span>Cidade e estado</span>
+          <input type="text" autoComplete="address-level2" placeholder="Ex.: Marabá (PA)" value={form.city} onChange={handleInput('city')} />
+        </label>
+        <label className="field">
+          <span>Tipo de máquina</span>
+          <select required value={form.machineType} onChange={handleInput('machineType')}>
+            <option value="" disabled>Selecione</option>
+            {machineTypes.map((type) => <option key={type}>{type}</option>)}
+          </select>
+        </label>
+        <label className="field">
+          <span>Qual máquina? <small>(opcional)</small></span>
+          <input type="text" placeholder="Ex.: escavadeira 20 t" value={form.machine} onChange={handleInput('machine')} />
+        </label>
+        <label className="field">
+          <span>Valor aproximado da máquina</span>
+          <select value={form.value} onChange={handleInput('value')}>
+            <option value="">Selecione</option>
+            {valueRanges.map((range) => <option key={range}>{range}</option>)}
+          </select>
+        </label>
+        <label className="field">
+          <span>Disponível para investir no início <small>(opcional)</small></span>
+          <select value={form.initial} onChange={handleInput('initial')}>
+            <option value="">Selecione</option>
+            {initialRanges.map((range) => <option key={range}>{range}</option>)}
+          </select>
+        </label>
+      </div>
+
+      <div className="form-choices">
+        <ChoiceGroup legend="Nova ou seminova?" name="condition" options={['Nova', 'Seminova']} value={form.condition} onChange={update('condition')} />
+        <ChoiceGroup legend="Prazo do plano" name="term" options={termOptions} value={form.term} onChange={update('term')} />
+        <ChoiceGroup legend="Parcelas" name="frequency" options={frequencyOptions} value={form.frequency} onChange={update('frequency')} />
+      </div>
+
+      <label className="consent">
+        <input type="checkbox" required checked={form.consent} onChange={handleInput('consent')} />
+        <span>Autorizo o contato da Isabelly pelo WhatsApp. Meus dados são usados apenas para este atendimento.</span>
+      </label>
+
+      <button type="submit" className="button button-primary button-wide">
+        <WhatsAppIcon /> Enviar pelo WhatsApp
+      </button>
+      <p className="form-note">Simulação sem compromisso. Contratação sujeita a análise de crédito e às regras do grupo.</p>
+    </form>
+  );
 }
 
 function App() {
-  const heroVisualRef = useRef(null);
-  const [heroImageFailed, setHeroImageFailed] = useState(false);
-  const [profileImageFailed, setProfileImageFailed] = useState(false);
-  const [openQuestion, setOpenQuestion] = useState(null);
-  const heroImages = useMemo(() => getFolderImages('2-foto-principal-topo-pagina'), []);
-  const profileImages = useMemo(() => getFolderImages('1-foto-perfil-isabelly'), []);
+  const bandRef = useRef(null);
+  const [openQuestion, setOpenQuestion] = useState(0);
 
   useEffect(() => {
     const revealElements = document.querySelectorAll('[data-reveal]');
@@ -147,265 +318,348 @@ function App() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) return undefined;
 
+    let frame = 0;
     const handleScroll = () => {
-      if (!heroVisualRef.current) return;
-      const offset = Math.min(window.scrollY * 0.08, 36);
-      heroVisualRef.current.style.setProperty('--hero-parallax', `${offset}px`);
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (!bandRef.current) return;
+        const rect = bandRef.current.getBoundingClientRect();
+        const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        bandRef.current.style.setProperty('--band-shift', `${Math.max(0, Math.min(1, progress)) * -60}px`);
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
     <>
-      <div className="viewport-blur" aria-hidden="true">
-      <span className="viewport-blur-layer viewport-blur-layer-1" />
-      <span className="viewport-blur-layer viewport-blur-layer-2" />
-      <span className="viewport-blur-layer viewport-blur-layer-3" />
-      <span className="viewport-blur-layer viewport-blur-layer-4" />
-      <span className="viewport-blur-layer viewport-blur-layer-5" />
-      <span className="viewport-blur-tint" />
-      </div>
-      <main>
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Isabelly Rufino — voltar ao início">
-          {profileImages[0] && !profileImageFailed ? (
-            <img
-              className="brand-photo"
-              src={profileImages[0]}
-              alt="Isabelly"
-              onError={() => setProfileImageFailed(true)}
-            />
-          ) : (
-            <span className="brand-mark">I</span>
-          )}
           <span className="brand-monogram" aria-hidden="true">IR</span>
           <span className="brand-divider" aria-hidden="true" />
-          <span className="brand-name">Isabelly Rufino</span>
+          <span className="brand-text">
+            <span className="brand-name">Isabelly Rufino</span>
+            <span className="brand-role">Consórcio · Grupo Capital</span>
+          </span>
         </a>
-        <nav className="header-links" aria-label="Canais de contato">
-          <a className="header-link" href={instagramLink} target="_blank" rel="noreferrer">
-            <InstagramIcon /> <span>Instagram</span>
-          </a>
-          <a className="header-link" href={whatsappLink} target="_blank" rel="noreferrer">
-            <WhatsAppIcon /> <span>Falar no WhatsApp</span>
-          </a>
+        <nav className="header-nav" aria-label="Seções da página">
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#comparativo">Consórcio x financiamento</a>
+          <a href="#duvidas">Dúvidas</a>
         </nav>
+        <a className="header-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
+          <WhatsAppIcon /> <span>Falar no WhatsApp</span>
+        </a>
       </header>
 
-      <div className="highlight-strip" role="note" tabIndex={0} aria-label="Destaques da página. Deslize horizontalmente para ver todos.">
-        <div className="section-shell highlight-strip-inner">
-          <span>Atendimento em todo o Brasil</span>
-          <span aria-hidden="true">•</span>
-          <span>Máquinas novas e seminovas</span>
-          <span aria-hidden="true">•</span>
-          <span>Negociação com acompanhamento próximo</span>
-        </div>
-      </div>
+      <main>
+        <section className="hero section-shell" id="inicio">
+          <div className="hero-copy" data-reveal="left">
+            <p className="eyebrow">Consórcio de máquinas pesadas</p>
+            <h1>Sua próxima máquina, conquistada <em>sem juros</em>.</h1>
+            <p className="hero-text">
+              Planejamento de consórcio para linha amarela, agro, caminhões e implementos, com parcelas
+              mensais, semestrais ou anuais e atendimento pessoal do início ao fim.
+            </p>
+            <div className="hero-actions">
+              <a className="button button-primary" href="#simulacao">Simular meu plano</a>
+              <a className="text-link" href="#como-funciona">Entender o consórcio <span aria-hidden="true">→</span></a>
+            </div>
+            <dl className="hero-facts">
+              <div>
+                <dt>Sem juros</dt>
+                <dd>Taxa de administração diluída no plano</dd>
+              </div>
+              <div>
+                <dt>Compra à vista</dt>
+                <dd>Nova ou seminova, onde você quiser</dd>
+              </div>
+              <div>
+                <dt>Regulado</dt>
+                <dd>Pelo Banco Central do Brasil</dd>
+              </div>
+            </dl>
+          </div>
 
-      <section className="hero section-shell" id="inicio">
-        <div className="hero-copy" data-reveal="left">
-          <p className="eyebrow">Máquinas para o próximo passo</p>
-          <h1>O equipamento certo para fazer seu negócio avançar.</h1>
-          <p className="hero-text">
-            Máquinas pesadas, caminhões e carretas, com atendimento humano e
-            transparente em todo o Brasil.
+          <figure className="hero-portrait" data-reveal="right">
+            <img src={isabellyPhoto} alt="Isabelly Rufino, consultora de consórcio do Grupo Capital" width="640" height="640" fetchPriority="high" />
+            <figcaption>
+              <span className="portrait-name">Isabelly Rufino</span>
+              <span className="portrait-role">Consultora de consórcio · Grupo Capital</span>
+            </figcaption>
+          </figure>
+        </section>
+
+        <div className="highlight-strip" aria-label="Destaques">
+          <div className="section-shell highlight-strip-inner">
+            <span>Sem juros</span>
+            <span aria-hidden="true">•</span>
+            <span>Parcelas mensais, semestrais ou anuais</span>
+            <span aria-hidden="true">•</span>
+            <span>Máquinas novas e seminovas</span>
+            <span aria-hidden="true">•</span>
+            <span>Atendimento em todo o Brasil</span>
+          </div>
+        </div>
+
+        <section className="steps section-shell" id="como-funciona">
+          <div className="section-heading" data-reveal>
+            <div>
+              <p className="eyebrow">Como funciona</p>
+              <h2>Consórcio, sem letras miúdas.</h2>
+            </div>
+            <p>Quatro etapas, do plano à máquina comprada à vista.</p>
+          </div>
+          <ol className="steps-grid" data-reveal>
+            {consortiumSteps.map((step, index) => (
+              <li key={step.title} className="step">
+                <span className="step-number">{String(index + 1).padStart(2, '0')}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="steps-note" data-reveal>
+            A contemplação não tem data garantida. Por isso o plano é montado com você: valor da carta,
+            prazo e estratégia de lance pensados para a sua operação.
           </p>
-          <div className="hero-actions">
-            <a className="button button-primary" href="#catalogo">Ver catálogo <span>↓</span></a>
-          </div>
-          <p className="hero-note">Novos e seminovos · Pronta entrega e encomenda</p>
-        </div>
-        <div className="hero-visual" data-reveal="right" ref={heroVisualRef} aria-label="Foto principal da máquina">
-          {heroImages[0] && !heroImageFailed ? (
-            <img
-              className="hero-photo"
-              src={heroImages[0]}
-              alt="Máquina em destaque"
-              fetchPriority="high"
-              decoding="async"
-              onError={() => setHeroImageFailed(true)}
-            />
-          ) : (
-            <div className="image-placeholder">
-              <span>Foto principal<br />a inserir</span>
+        </section>
+
+        <section className="comparison section-shell" id="comparativo">
+          <div className="section-heading" data-reveal>
+            <div>
+              <p className="eyebrow">Consórcio ou financiamento?</p>
+              <h2>A escolha certa depende do seu momento.</h2>
             </div>
-          )}
-
-        </div>
-      </section>
-
-      <section className="catalog section-shell" id="catalogo">
-        <div className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">Catálogo</p>
-            <h2>Encontre sua próxima máquina.</h2>
+            <p>Cada caminho tem vantagens. Veja as diferenças lado a lado.</p>
           </div>
-          <p>Consulte disponibilidade, localização e condições pelo WhatsApp.</p>
-        </div>
-        <div className="category-grid">
-          {categories.map((category, index) => (
-            <div className="category-card" data-reveal data-delay={index} key={category.title}>
-              <div className="category-image">
-                <Carousel
-                  images={getFolderImages(category.folder)}
-                  alt={category.title}
-                  placeholderLabel="Foto a inserir"
-                />
-              </div>
-              <div className="category-content">
-                <div className="category-title-row">
-                  <h3>{category.title}</h3>
-                  <span className="category-index" aria-label={`Categoria ${index + 1}`}>
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-                <p>{category.description}</p>
-                <div className="category-meta">
-                  <span>Novos e seminovos</span>
-                  <span>Consulte condições</span>
-                </div>
-              </div>
+          <div className="comparison-table-wrap" data-reveal>
+            <table className="comparison-table">
+              <caption className="sr-only">Comparativo entre consórcio e financiamento</caption>
+              <thead>
+                <tr>
+                  <th scope="col"><span className="sr-only">Critério</span></th>
+                  <th scope="col" className="is-featured">Consórcio</th>
+                  <th scope="col">Financiamento</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonRows.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row">{row.label}</th>
+                    <td className="is-featured">{row.consortium}</td>
+                    <td>{row.financing}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="comparison-note" data-reveal>
+            <Pendente>Se você precisa da máquina imediatamente, o consórcio pode não ser o melhor caminho, e a Isabelly vai te dizer isso.</Pendente>
+          </p>
+        </section>
+
+        <section className="band" ref={bandRef} aria-labelledby="band-title">
+          <img className="band-image" src={faixaPhoto} alt="" loading="lazy" decoding="async" />
+          <div className="band-content section-shell" data-reveal>
+            <p className="eyebrow">Flexibilidade</p>
+            <h2 id="band-title">Parcelas no ritmo da sua operação.</h2>
+            <p>
+              Mensal, semestral ou anual: o plano acompanha o fluxo de caixa de quem vive de produção,
+              de safra, de obra ou de frete.
+            </p>
+          </div>
+        </section>
+
+        <section className="purchase section-shell">
+          <div className="section-heading" data-reveal>
+            <div>
+              <p className="eyebrow">O que você pode comprar</p>
+              <h2>Uma carta de crédito, muitas possibilidades.</h2>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="why-us section-shell" data-reveal>
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Por que negociar com a Isabelly?</p>
-            <h2>Mais clareza para uma decisão importante.</h2>
+            <p>De concessionária, revenda ou particular, nova ou seminova, com nota fiscal.</p>
           </div>
-          <p>Orientação prática para escolher a máquina e planejar os próximos passos.</p>
-        </div>
-        <div className="why-grid">
-          <article className="why-card">
-            <span className="why-number">01</span>
-            <h3>Atendimento humano</h3>
-            <p>Conversa direta para entender sua operação e indicar caminhos que façam sentido.</p>
-          </article>
-          <article className="why-card">
-            <span className="why-number">02</span>
-            <h3>Negociação transparente</h3>
-            <p>Informações sobre disponibilidade, localização e condições são alinhadas com clareza.</p>
-          </article>
-          <article className="why-card">
-            <span className="why-number">03</span>
-            <h3>Alcance nacional</h3>
-            <p>Atendimento para todo o Brasil, com acompanhamento próximo em cada negociação.</p>
-          </article>
-          <article className="why-card">
-            <span className="why-number">04</span>
-            <h3>Visão completa</h3>
-            <p>Orientação sobre crédito e logística, conforme o perfil da sua negociação.</p>
-          </article>
-        </div>
-      </section>
-
-      <section className="about section-shell" data-reveal>
-        <div className="about-photo">
-          {profileImages[0] && !profileImageFailed ? (
-            <img src={profileImages[0]} alt="Isabelly, responsável pelo atendimento" loading="lazy" onError={() => setProfileImageFailed(true)} />
-          ) : (
-            <div className="about-initial" aria-hidden="true">I</div>
-          )}
-        </div>
-        <div className="about-copy">
-          <p className="eyebrow">Quem está com você</p>
-          <h2>Atendimento próximo para você negociar com confiança.</h2>
-          <p>Meu objetivo é entender sua operação, apresentar opções alinhadas ao que você procura e acompanhar os próximos passos com transparência.</p>
-          <a className="about-link" href={instagramLink} target="_blank" rel="noreferrer"><InstagramIcon /> Conheça mais no Instagram</a>
-        </div>
-      </section>
-
-      <section className="process section-shell" data-reveal>
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Como funciona</p>
-            <h2>Da escolha da máquina ao próximo passo.</h2>
-          </div>
-          <p>Um atendimento próximo para você decidir com mais segurança.</p>
-        </div>
-        <div className="process-grid">
-          <div className="process-step">
-            <span>01</span>
-            <h3>Conte o que você precisa</h3>
-            <p>Informe o tipo de operação, máquina ou veículo que procura.</p>
-          </div>
-          <div className="process-step">
-            <span>02</span>
-            <h3>Receba as opções</h3>
-            <p>Consultamos disponibilidade, localização e condições atuais.</p>
-          </div>
-          <div className="process-step">
-            <span>03</span>
-            <h3>Negocie com clareza</h3>
-            <p>Acompanhamos os próximos passos até a conclusão presencial.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="faq section-shell" data-reveal>
-        <div className="faq-layout">
-          <aside className="faq-aside">
-            <div className="faq-sticky">
-              <p className="eyebrow">Dúvidas frequentes</p>
-              <div className="faq-title-lockup">
-                <span className="faq-rail" aria-hidden="true" />
-                <div>
-                  <span className="faq-index" aria-hidden="true">05</span>
-                  <h2>Informação para escolher melhor.</h2>
-                </div>
+          <div className="purchase-grid">
+            {purchaseOptions.map((option, index) => (
+              <div key={option.title} data-reveal data-delay={index}>
+                <article className="purchase-card">
+                  <div className="purchase-image">
+                    {option.image ? (
+                      <img src={option.image} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      <div className="image-placeholder"><Pendente>Foto a definir</Pendente></div>
+                    )}
+                  </div>
+                  <div className="purchase-content">
+                    <h3>{option.title}</h3>
+                    <p>{option.text}</p>
+                  </div>
+                </article>
               </div>
+            ))}
+          </div>
+          <p className="image-disclaimer">Imagens meramente ilustrativas.</p>
+        </section>
+
+        <section className="about section-shell" id="isabelly">
+          <div className="about-photo" data-reveal="left">
+            <img src={isabellyPhoto} alt="Isabelly Rufino no Grupo Capital" width="640" height="640" loading="lazy" decoding="async" />
+          </div>
+          <div className="about-copy" data-reveal="right">
+            <p className="eyebrow">Quem cuida do seu plano</p>
+            <blockquote>
+              <p>“Você não fala com uma central. Fala comigo.”</p>
+            </blockquote>
+            <p>
+              Sou Isabelly Rufino, consultora de consórcio do Grupo Capital. Meu trabalho é entender a sua
+              operação, montar o plano junto com você e acompanhar cada etapa com transparência, sem
+              promessas que eu não posso cumprir.
+            </p>
+            <div className="video-slot">
+              <span className="video-play" aria-hidden="true">▶</span>
+              <span><Pendente>Vídeo de apresentação (30 a 60 s) a gravar</Pendente></span>
             </div>
-          </aside>
-          <div className="faq-list">
-            {frequentlyAskedQuestions.map((item, index) => {
-              const isOpen = openQuestion === index;
-              return (
-                <div className={isOpen ? 'faq-item is-open' : 'faq-item'} key={item.question}>
-                  <button
-                    type="button"
-                    className="faq-question"
-                    aria-expanded={isOpen}
-                    aria-controls={`faq-answer-${index}`}
-                    onClick={() => setOpenQuestion(isOpen ? null : index)}
-                  >
-                    <span>{item.question}</span>
-                    <span aria-hidden="true">{isOpen ? '−' : '+'}</span>
-                  </button>
-                  <div className="faq-answer" id={`faq-answer-${index}`} hidden={!isOpen}>
-                    <p>{item.answer}</p>
+            <a className="text-link" href={instagramLink} target="_blank" rel="noreferrer">
+              <InstagramIcon /> Acompanhe no Instagram
+            </a>
+          </div>
+        </section>
+
+        <section className="service section-shell">
+          <div className="section-heading" data-reveal>
+            <div>
+              <p className="eyebrow">O atendimento</p>
+              <h2>Do primeiro contato à assinatura.</h2>
+            </div>
+            <p>Quase tudo à distância. Só a assinatura do contrato é presencial.</p>
+          </div>
+          <ol className="service-timeline" data-reveal>
+            {serviceSteps.map((step, index) => (
+              <li key={step.title}>
+                <span className="service-dot" aria-hidden="true">{index + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="safety section-shell">
+          <div className="safety-panel" data-reveal>
+            <div className="safety-intro">
+              <p className="eyebrow">Segurança</p>
+              <h2>Como saber se é sério.</h2>
+              <p>
+                Consórcio é um produto regulado. Estas três verificações valem para qualquer proposta,
+                inclusive a nossa.
+              </p>
+            </div>
+            <div className="safety-list">
+              {safetyPoints.map((point, index) => (
+                <div key={point.title} className="safety-item">
+                  <span className="safety-number">{String(index + 1).padStart(2, '0')}</span>
+                  <div>
+                    <h3>{point.title}</h3>
+                    <p>{point.text}</p>
                   </div>
                 </div>
-              );
-            })}
+              ))}
+              <p className="safety-admin">
+                Administradora dos grupos: <Pendente>razão social da Alpha, CNPJ e nº de autorização do Banco Central</Pendente>
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="contact section-shell" data-reveal>
-        <div>
-          <p className="eyebrow">Vamos conversar?</p>
-          <h2>Me diga o que você procura.</h2>
-          <p>Use o WhatsApp no topo da página para receber as opções disponíveis e as condições atuais.</p>
-          <a className="contact-instagram" href={instagramLink} target="_blank" rel="noreferrer">
-            <InstagramIcon /> Acompanhe novidades no Instagram
-          </a>
-        </div>
-      </section>
+        <section className="faq section-shell" id="duvidas">
+          <div className="faq-layout">
+            <div className="faq-aside" data-reveal>
+              <p className="eyebrow">Dúvidas frequentes</p>
+              <h2>As perguntas que todo cliente faz.</h2>
+              <p>Respostas diretas. Se a sua não estiver aqui, pergunte no WhatsApp.</p>
+            </div>
+            <div className="faq-list" data-reveal>
+              {frequentlyAskedQuestions.map((item, index) => {
+                const isOpen = openQuestion === index;
+                return (
+                  <div className={isOpen ? 'faq-item is-open' : 'faq-item'} key={item.question}>
+                    <h3>
+                      <button
+                        type="button"
+                        className="faq-question"
+                        aria-expanded={isOpen}
+                        aria-controls={`faq-answer-${index}`}
+                        onClick={() => setOpenQuestion(isOpen ? null : index)}
+                      >
+                        <span>{item.question}</span>
+                        <span className="faq-sign" aria-hidden="true" />
+                      </button>
+                    </h3>
+                    <div className="faq-answer" id={`faq-answer-${index}`} hidden={!isOpen}>
+                      <p>{item.answer}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="simulation section-shell" id="simulacao">
+          <div className="simulation-panel" data-reveal>
+            <div className="simulation-intro">
+              <p className="eyebrow">Simulação</p>
+              <h2>Vamos planejar a sua próxima máquina?</h2>
+              <p>
+                Conte o que você procura. A mensagem chega pronta no WhatsApp da Isabelly, e ela responde
+                com as opções para o seu caso.
+              </p>
+              <div className="simulation-signature">
+                <img src={isabellyPhoto} alt="" width="56" height="56" loading="lazy" />
+                <div>
+                  <strong>Isabelly Rufino</strong>
+                  <span>Consultora de consórcio</span>
+                </div>
+              </div>
+            </div>
+            <SimulationForm />
+          </div>
+        </section>
+      </main>
 
       <footer className="site-footer section-shell">
-        <span className="footer-signature">ISABELLY RUFINO</span>
-        <span>Atendimento em todo o Brasil</span>
+        <div className="footer-top">
+          <div className="footer-brand">
+            <span className="brand-monogram" aria-hidden="true">IR</span>
+            <div>
+              <strong>Isabelly Rufino</strong>
+              <span>Consultora de consórcio · Grupo Capital</span>
+            </div>
+          </div>
+          <div className="footer-links">
+            <a href={whatsappLink} target="_blank" rel="noreferrer"><WhatsAppIcon /> WhatsApp</a>
+            <a href={instagramLink} target="_blank" rel="noreferrer"><InstagramIcon /> Instagram</a>
+          </div>
+        </div>
+        <p className="footer-legal">
+          Consórcio administrado por <Pendente>[razão social da administradora], CNPJ [00.000.000/0000-00]</Pendente>,
+          autorizada e fiscalizada pelo Banco Central do Brasil, conforme a Lei 11.795/2008. Comercialização:
+          Grupo Capital, <Pendente>CNPJ [00.000.000/0000-00]</Pendente>. A contemplação ocorre por sorteio ou lance e
+          não tem data garantida. Contratação sujeita a análise de crédito e às regras do grupo. Imagens meramente
+          ilustrativas.
+        </p>
       </footer>
+
       <a className="floating-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer" aria-label="Falar com Isabelly pelo WhatsApp">
         <WhatsAppIcon />
         <span>WhatsApp</span>
       </a>
-      </main>
     </>
   );
 }

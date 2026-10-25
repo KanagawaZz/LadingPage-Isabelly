@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import posterImage from '../assets/pagina/hero.webp';
+import posterImageSmall from '../assets/pagina/hero-768.webp';
 import { PlayPauseIcon } from './Icons.jsx';
 
 // O vídeo é opcional: basta salvar `hero.mp4` (e, se quiser, `hero.webm`) em
@@ -42,7 +43,16 @@ function HeroMedia() {
 
   return (
     <div className="hero-media">
-      <img className="hero-media-poster" src={posterImage} alt="" width="1284" height="928" fetchPriority="high" />
+      <img
+        className="hero-media-poster"
+        src={posterImage}
+        srcSet={`${posterImageSmall} 768w, ${posterImage} 1284w`}
+        sizes="(max-width: 760px) 100vw, 64vw"
+        alt=""
+        width="1284"
+        height="928"
+        fetchPriority="high"
+      />
       {useVideo && (
         <>
           <video

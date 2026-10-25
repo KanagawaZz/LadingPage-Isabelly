@@ -6,6 +6,7 @@ import {
   initialRanges,
   machineTypes,
   termOptions,
+  urgencyOptions,
   valueRanges,
 } from '../content.js';
 import { WhatsAppIcon } from './Icons.jsx';
@@ -15,6 +16,7 @@ const frequencyPlural = { Mensal: 'mensais', Semestral: 'semestrais', Anual: 'an
 
 const emptyForm = {
   goal: '',
+  urgency: '',
   machineType: '',
   machine: '',
   condition: 'Nova',
@@ -39,11 +41,12 @@ const requirements = [
 function buildSimulationMessage(form) {
   const machine = form.machine.trim() ? `${form.machineType} (${form.machine.trim()})` : form.machineType;
   const lines = [
-    'Olá, Isabelly. Gostaria de simular uma carta de crédito para máquinas.',
+    'Olá, Isabelly! Gostaria de avaliar as opções de planejamento de crédito para o equipamento que preciso.',
     '',
     `Nome: ${form.name.trim()}`,
     form.city.trim() ? `Cidade: ${form.city.trim()}` : null,
     `Objetivo: ${form.goal}`,
+    form.urgency ? `Quando preciso da máquina: ${form.urgency.toLowerCase()}` : null,
     `Equipamento: ${machine}, ${form.condition.toLowerCase()}`,
     form.value ? `Valor aproximado: ${form.value}` : null,
     form.initial ? `Disponível para investir no início: ${form.initial}` : null,
@@ -85,7 +88,9 @@ function SimulationForm({ presetMachineType }) {
   const [form, setForm] = useState(emptyForm);
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState({});
+  const [sentLink, setSentLink] = useState(null);
   const headingRef = useRef(null);
+  const successRef = useRef(null);
   const hasNavigated = useRef(false);
 
   const update = (field) => (value) => {
@@ -102,6 +107,11 @@ function SimulationForm({ presetMachineType }) {
   useEffect(() => {
     if (hasNavigated.current) headingRef.current?.focus();
   }, [step]);
+
+  // Depois do envio, o foco vai para a confirmação.
+  useEffect(() => {
+    if (sentLink) successRef.current?.focus();
+  }, [sentLink]);
 
   const goTo = (nextStep) => {
     hasNavigated.current = true;
@@ -125,15 +135,33 @@ function SimulationForm({ presetMachineType }) {
       goTo(step + 1);
       return;
     }
-    window.open(buildWhatsappLink(buildSimulationMessage(form)), '_blank', 'noopener');
+    const link = buildWhatsappLink(buildSimulationMessage(form));
+    window.open(link, '_blank', 'noopener');
+    setSentLink(link);
   };
 
   const summary = [
-    ['Objetivo', form.goal, 0],
+    ['Objetivo', [form.goal, form.urgency].filter(Boolean).join(' · '), 0],
     ['Equipamento', `${form.machineType}${form.machine.trim() ? ` (${form.machine.trim()})` : ''}, ${form.condition.toLowerCase()}`, 1],
     ['Valores', [form.value, form.initial && `início: ${form.initial}`].filter(Boolean).join(' · ') || 'Não informado', 2],
     ['Plano', `Prazo ${form.term.toLowerCase()}, parcelas ${frequencyPlural[form.frequency]}`, 3],
   ];
+
+  // Confirmação com link de reserva, caso o navegador bloqueie a abertura do WhatsApp.
+  if (sentLink) {
+    return (
+      <div className="form-success" role="status">
+        <h3 className="form-step-title" ref={successRef} tabIndex={-1}>Sua mensagem está pronta no WhatsApp.</h3>
+        <p>Revise e toque em enviar. A Isabelly responde com as possibilidades para o seu caso.</p>
+        <a className="button button-primary" href={sentLink} target="_blank" rel="noreferrer" data-cta="simulacao-reabrir">
+          <WhatsAppIcon /> O WhatsApp não abriu? Toque aqui
+        </a>
+        <button type="button" className="form-edit" onClick={() => setSentLink(null)}>
+          Editar minhas respostas
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form className="simulation-form" onSubmit={handleSubmit} noValidate>
@@ -159,7 +187,16 @@ function SimulationForm({ presetMachineType }) {
       </h3>
 
       {step === 0 && (
-        <OptionGroup legend="Objetivo" name="goal" variant="card" options={goals} value={form.goal} onChange={update('goal')} error={errors.goal} />
+        <div className="form-stack">
+          <OptionGroup legend="Objetivo" name="goal" variant="card" options={goals} value={form.goal} onChange={update('goal')} error={errors.goal} />
+          <OptionGroup legend="Quando você precisa da máquina? (opcional)" name="urgency" options={urgencyOptions} value={form.urgency} onChange={update('urgency')} />
+          {form.urgency === 'O quanto antes' && (
+            <p className="form-hint" role="note">
+              O crédito é liberado na contemplação, sem data garantida. Na conversa, a Isabelly explica se um lance
+              pode ajudar no seu caso ou se outro caminho faz mais sentido.
+            </p>
+          )}
+        </div>
       )}
 
       {step === 1 && (
@@ -239,14 +276,14 @@ function SimulationForm({ presetMachineType }) {
             Voltar
           </button>
         )}
-        <button type="submit" className="button button-primary">
+        <button type="submit" className="button button-primary" data-cta={step === steps.length - 1 ? 'simulacao-whatsapp' : undefined}>
           {step < steps.length - 1 ? 'Continuar' : <><WhatsAppIcon /> Abrir no WhatsApp</>}
         </button>
       </div>
       <p className="form-note">
         {step < steps.length - 1
           ? 'Simulação sem compromisso. Nenhum dado é enviado antes da última etapa.'
-          : 'A mensagem abre no seu WhatsApp para você revisar e enviar. Contratação sujeita a análise de crédito e às regras do grupo.'}
+          : 'A mensagem abre no seu WhatsApp para você revisar e enviar. A conversa inicial não é aprovação nem garantia de contratação.'}
       </p>
     </form>
   );

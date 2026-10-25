@@ -1,7 +1,11 @@
 // Textos e dados da página. Para ajustar conteúdo, normalmente basta editar este arquivo.
 
 export const whatsappNumber = '556581313761';
-export const whatsappGreeting = 'Olá, Isabelly. Vim pela sua página e gostaria de informações sobre carta de crédito para máquinas.';
+// Mensagens iniciais do WhatsApp, uma por ponto de contato, para a Isabelly saber de onde veio a conversa.
+export const whatsappGreeting = 'Olá, Isabelly! Gostaria de conhecer as possibilidades de crédito para adquirir uma máquina ou equipamento.';
+export const heroWhatsappMessage = 'Olá, Isabelly! Acessei sua página e quero avaliar as possibilidades de crédito para a máquina que preciso.';
+export const aboutWhatsappMessage = 'Olá, Isabelly! Vi sua apresentação na página e gostaria de conversar sobre a máquina que preciso para minha operação.';
+export const faqWhatsappMessage = 'Olá, Isabelly! Acessei sua página e gostaria de tirar algumas dúvidas antes de avaliar uma opção de crédito.';
 export const instagramLink = 'https://www.instagram.com/isabelly_rufino';
 
 export function buildWhatsappLink(message) {
@@ -17,31 +21,31 @@ export const company = {
 };
 
 export const heroFacts = [
-  { title: 'Sem juros de financiamento', text: 'Os custos são taxa de administração, fundo de reserva e seguros, quando houver.' },
-  { title: 'Compra à vista', text: 'Com a carta de crédito, máquina nova ou seminova, conforme as regras do grupo.' },
-  { title: 'Todo o Brasil', text: `Atendimento online e assinatura presencial em ${company.cidadeAssinatura}.` },
+  { title: 'Sem juros de financiamento', text: 'Os custos do plano são apresentados na simulação, antes de qualquer decisão.' },
+  { title: 'Compra à vista', text: 'Após a contemplação, para máquinas novas ou seminovas aceitas pelo plano.' },
+  { title: 'Orientação personalizada', text: 'Você fala direto com a Isabelly, do primeiro contato à assinatura.' },
 ];
 
 export const consortiumSteps = [
   {
     icon: 'plan',
-    title: 'Plano e carta de crédito',
-    text: 'Você define o valor da carta, o prazo e a forma de pagamento: mensal, semestral ou anual.',
+    title: 'Conversa e simulação',
+    text: 'Pelo WhatsApp, a Isabelly entende a máquina que você precisa e apresenta valores, parcelas, custos e regras do plano.',
   },
   {
     icon: 'group',
-    title: 'Grupo e parcelas',
-    text: 'Você entra em um grupo e paga as parcelas, que incluem a taxa de administração e o fundo de reserva.',
+    title: 'Análise e assinatura',
+    text: `Você envia os documentos para a análise de crédito da administradora e assina o contrato em ${company.cidadeAssinatura}. A partir daí, entra em um grupo e paga as parcelas.`,
   },
   {
     icon: 'draw',
     title: 'Contemplação',
-    text: 'Acontece nas assembleias, por sorteio ou lance, conforme as regras do grupo. Para concorrer, as parcelas precisam estar em dia.',
+    text: 'O acesso ao crédito acontece por sorteio ou lance, conforme o contrato e as regras do grupo. Não existe data garantida.',
   },
   {
     icon: 'key',
-    title: 'Uso da carta',
-    text: 'Após a análise da administradora, a carta paga a máquina à vista, de concessionária, revenda ou particular, com nota fiscal.',
+    title: 'Uso do crédito',
+    text: 'Após a contemplação e a análise da administradora, o crédito paga à vista um bem aceito pelo plano, com nota fiscal. Não é um valor para saque.',
   },
 ];
 
@@ -51,12 +55,12 @@ export const acquisitionPaths = [
   {
     icon: 'plan',
     title: 'Planejamento financeiro',
-    text: 'Parcelas mensais, semestrais ou anuais, sem juros de financiamento, para a aquisição caber no fluxo de caixa da sua operação.',
+    text: 'Valor da carta, prazo e forma de pagamento definidos de acordo com o fluxo de caixa da sua operação, sem juros de financiamento.',
   },
   {
     icon: 'draw',
     title: 'Estratégias de aquisição',
-    text: 'O crédito é liberado na contemplação, por sorteio ou lance. Não há data garantida, mas uma boa estratégia de lance pode antecipar a compra.',
+    text: 'O crédito é liberado na contemplação, por sorteio ou lance, sem data garantida. A estratégia de lance é planejada com você, de acordo com o que você pode investir.',
   },
   {
     icon: 'group',
@@ -65,7 +69,7 @@ export const acquisitionPaths = [
   },
 ];
 
-export const acquisitionWhatsappMessage = 'Olá, Isabelly! Acessei sua página e gostaria de entender as possibilidades de crédito para adquirir uma máquina para minha operação.';
+export const acquisitionWhatsappMessage = 'Olá, Isabelly! Estou avaliando a aquisição de uma máquina e gostaria de entender as possibilidades para o meu caso.';
 
 export const paymentRhythms = [
   { title: 'Mensal', text: 'Para operações com receita constante ao longo do ano, como frete e prestação de serviços.' },
@@ -92,17 +96,10 @@ export const purchaseCategories = [
   },
 ];
 
-export const serviceSteps = [
-  { title: 'Primeira conversa', text: 'Pelo WhatsApp: qual máquina você procura e quanto pode investir.' },
-  { title: 'Simulação', text: 'Opções de carta de crédito, prazo e parcelas, com os custos explicados.' },
-  { title: 'Análise', text: 'Envio dos documentos. A contratação é sujeita a análise de crédito.' },
-  { title: 'Assinatura', text: `Presencial, na unidade do Grupo Capital em ${company.cidadeAssinatura}.` },
-];
-
 export const serviceCommitments = [
   'Entendo a sua operação antes de falar de plano.',
   'Explico custos, regras de lance e reajustes antes da assinatura.',
-  'Não prometo data de contemplação, porque ninguém pode prometer.',
+  'Falo de prazos com transparência, sem promessas que não posso cumprir.',
 ];
 
 export const safetyPoints = [
@@ -111,8 +108,8 @@ export const safetyPoints = [
     text: 'O consórcio segue a Lei 11.795/2008. Antes de assinar, confira se a administradora é autorizada no site do Banco Central.',
   },
   {
-    title: 'Ninguém garante a data',
-    text: 'A contemplação acontece por sorteio ou lance. Desconfie de quem promete crédito liberado em prazo certo.',
+    title: 'Desconfie de prazo garantido',
+    text: 'A contemplação acontece por sorteio ou lance. Quem promete crédito liberado em data certa não está sendo transparente.',
   },
   {
     title: 'Tudo está no contrato',
@@ -122,59 +119,60 @@ export const safetyPoints = [
 
 export const frequentlyAskedQuestions = [
   {
-    question: 'Onde está a máquina?',
-    answer: 'O consórcio não trabalha com estoque. Você recebe uma carta de crédito e, ao ser contemplado, escolhe a máquina, nova ou seminova, em concessionária, revenda ou de particular, com nota fiscal.',
+    question: 'Que tipo de solução de crédito é essa?',
+    answer: 'É uma carta de crédito na modalidade consórcio, para a aquisição de bens. Não é empréstimo nem financiamento com liberação imediata: o crédito fica disponível na contemplação, por sorteio ou lance, conforme o contrato.',
   },
   {
-    question: 'Não é aquele consórcio em que a gente paga anos e nunca é contemplado?',
-    answer: 'Esse é o receio mais comum, e faz sentido. A contemplação acontece nas assembleias do grupo, por sorteio ou por lance. Com lance livre (recursos próprios) ou embutido (parte da própria carta), é possível tentar antecipar a contemplação, e essa estratégia é planejada com você desde o início. Ainda assim, não existe data garantida, e você sabe disso antes de assinar.',
+    question: 'Onde está a máquina?',
+    answer: 'A carta de crédito não está ligada a um estoque. Ao ser contemplado, você escolhe a máquina, nova ou seminova, em concessionária, revenda ou de particular, com nota fiscal, desde que o bem seja aceito pelas regras do plano. Vale confirmar o equipamento com a Isabelly antes de contratar.',
+  },
+  {
+    question: 'Quanto tempo leva para eu conseguir a máquina?',
+    answer: 'Não existe data garantida. A contemplação acontece nas assembleias do grupo, por sorteio ou por lance, e para concorrer é preciso estar com as parcelas em dia. A Isabelly planeja com você uma estratégia de lance de acordo com o que você pode investir.',
   },
   {
     question: 'Tem juros?',
-    answer: 'Não há juros remuneratórios, como em um financiamento. Há outros custos: taxa de administração, fundo de reserva e seguros, quando houver. Todos aparecem na simulação e no contrato.',
-  },
-  {
-    question: 'Quando recebo o crédito?',
-    answer: 'Na contemplação, que acontece nas assembleias do grupo, por sorteio ou por lance. Não existe data garantida, e para concorrer é preciso estar com as parcelas em dia.',
+    answer: 'Não há juros como em um financiamento, mas há custos: taxa de administração, fundo de reserva, seguros e reajustes, quando previstos no contrato. Todos aparecem na simulação e no contrato.',
   },
   {
     question: 'Como funcionam os lances?',
-    answer: 'No lance livre, você oferta um valor com recursos próprios para antecipar a contemplação. No lance embutido, parte da própria carta de crédito é usada como lance, o que reduz o valor disponível para a compra. As regras de cada grupo estão no contrato.',
-  },
-  {
-    question: 'O valor da carta e das parcelas muda?',
-    answer: 'Pode mudar. A carta e as parcelas podem ser reajustadas periodicamente, pelo critério previsto em contrato, para acompanhar o preço dos bens.',
+    answer: 'O lance é uma forma de concorrer à contemplação além do sorteio. No lance livre, você oferta um valor com recursos próprios. No lance embutido, parte da própria carta de crédito é usada, o que reduz o valor disponível para a compra. Ofertar um lance não garante a contemplação: vale a regra do grupo.',
   },
   {
     question: 'Quanto preciso para começar?',
-    answer: 'Depende do valor da carta e do plano escolhido. Na simulação, a Isabelly apresenta as opções para o seu caso, sem compromisso.',
+    answer: 'Depende do valor do crédito, do plano, da forma de pagamento e dos custos do contrato. Na simulação, a Isabelly apresenta os valores reais para o seu caso, sem compromisso.',
   },
   {
-    question: 'Posso usar minha máquina ou meu veículo no negócio?',
-    answer: 'As formas de lance aceitas seguem as regras de cada grupo. Na conversa, a Isabelly explica o que é possível no seu caso.',
+    question: 'Posso dar minha máquina ou meu veículo como parte do pagamento?',
+    answer: 'Depende das regras do grupo e das formas de lance aceitas. Na conversa, a Isabelly explica o que é possível no seu caso.',
   },
   {
     question: 'Posso contratar com o nome negativado?',
-    answer: 'A adesão passa por análise da administradora. Fale com a Isabelly para entender a possibilidade no seu caso, sem promessa de aprovação.',
+    answer: 'Depende dos critérios da administradora. A adesão e a liberação do crédito podem passar por análise cadastral. Converse com a Isabelly para verificar a sua situação antes de contratar.',
+  },
+  {
+    question: 'O valor do crédito e das parcelas muda?',
+    answer: 'Pode mudar. Quando o contrato prevê reajuste, o crédito e as parcelas são atualizados pelo critério definido para o grupo. Confirme essa regra na simulação.',
   },
   {
     question: 'Preciso ir até a loja?',
-    answer: `A conversa, a simulação e a análise são feitas à distância. A assinatura do contrato é presencial, na unidade do Grupo Capital em ${company.cidadeAssinatura}.`,
+    answer: `A primeira conversa, a simulação e a análise são feitas à distância. A assinatura do contrato é presencial, na unidade do Grupo Capital em ${company.cidadeAssinatura}.`,
   },
   {
     question: 'Quais documentos preciso enviar?',
     answer: [
+      ['Quando', 'só na etapa de análise, pelo canal indicado pela Isabelly. Esta página não pede documentos.'],
       ['Pessoa física', 'documento oficial com foto (RG ou CNH), comprovante de residência atualizado e comprovante de renda.'],
       ['Pessoa jurídica', 'contrato social ou requerimento de empresário, cartão CNPJ atualizado, comprovante de endereço comercial, documento com foto do responsável legal e comprovante de renda.'],
     ],
   },
   {
-    question: 'Quanto custa o atendimento da Isabelly?',
-    answer: 'Nada. A Isabelly é remunerada pela administradora. Você não paga nenhum valor diretamente a ela.',
+    question: 'O atendimento da Isabelly tem custo?',
+    answer: 'Não. A Isabelly é remunerada pela administradora. Você não paga nenhum valor diretamente a ela.',
   },
   {
     question: 'Como verifico a administradora?',
-    answer: 'O nome e o CNPJ da administradora constam na proposta e no contrato. Com esses dados, confira no site do Banco Central se ela é autorizada a administrar consórcios.',
+    answer: 'O nome e o CNPJ da administradora constam na proposta e no contrato. Com esses dados, consulte no site do Banco Central se ela é autorizada a administrar consórcios.',
   },
 ];
 
@@ -184,4 +182,5 @@ export const machineTypes = ['Linha amarela', 'Agro', 'Caminhão ou carreta', 'I
 export const valueRanges = ['Até R$ 500 mil', 'R$ 500 mil a R$ 1 milhão', 'R$ 1 a 2 milhões', 'R$ 2 a 3 milhões', 'Acima de R$ 3 milhões'];
 export const initialRanges = ['Ainda não sei', 'Até R$ 100 mil', 'R$ 100 a 300 mil', 'R$ 300 a 600 mil', 'Acima de R$ 600 mil'];
 export const termOptions = ['Curto', 'Médio', 'Longo'];
+export const urgencyOptions = ['O quanto antes', 'Nos próximos meses', 'Estou planejando com calma'];
 export const frequencyOptions = ['Mensal', 'Semestral', 'Anual'];

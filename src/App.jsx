@@ -1,25 +1,30 @@
 import { useEffect, useState } from 'react';
 import isabellyPhoto from './assets/pagina/isabelly.webp';
+import isabellyAvatar from './assets/pagina/isabelly-160.webp';
 import linhaAmarelaPhoto from './assets/pagina/linha-amarela.webp';
+import linhaAmarelaPhotoSmall from './assets/pagina/linha-amarela-560.webp';
 import agroPhoto from './assets/pagina/agro.webp';
+import agroPhotoSmall from './assets/pagina/agro-400.webp';
 import HeroMedia from './components/HeroMedia.jsx';
 import Pending from './components/Pending.jsx';
 import SimulationForm from './components/SimulationForm.jsx';
 import { InstagramIcon, MenuIcon, StepIcon, WhatsAppIcon } from './components/Icons.jsx';
 import {
+  aboutWhatsappMessage,
   acquisitionPaths,
   acquisitionWhatsappMessage,
   buildWhatsappLink,
   company,
   consortiumSteps,
+  faqWhatsappMessage,
   frequentlyAskedQuestions,
   heroFacts,
+  heroWhatsappMessage,
   instagramLink,
   paymentRhythms,
   purchaseCategories,
   safetyPoints,
   serviceCommitments,
-  serviceSteps,
   whatsappGreeting,
 } from './content.js';
 
@@ -31,8 +36,8 @@ const introVideo = Object.values(
 )[0];
 
 const navLinks = [
+  ['#possibilidades', 'Opções de crédito'],
   ['#como-funciona', 'Como funciona'],
-  ['#possibilidades', 'Possibilidades'],
   ['#isabelly', 'Sobre a Isabelly'],
   ['#duvidas', 'Dúvidas'],
 ];
@@ -46,6 +51,12 @@ function useRevealOnScroll() {
   useEffect(() => {
     const revealElements = document.querySelectorAll('[data-reveal]');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Em grupos (data-reveal="stagger"), cada item entra um pouco depois do anterior.
+    revealElements.forEach((element) => {
+      if (element.dataset.reveal !== 'stagger') return;
+      [...element.children].forEach((child, index) => child.style.setProperty('--reveal-index', index));
+    });
 
     if (reducedMotion) {
       revealElements.forEach((element) => element.classList.add('is-visible'));
@@ -120,7 +131,7 @@ function SiteHeader() {
 
   return (
     <header className="site-header">
-      <a className="brand" href="#inicio" aria-label="Isabelly Rufino — voltar ao início">
+      <a className="brand" href="#inicio">
         <span className="brand-monogram" aria-hidden="true">IR</span>
         <span className="brand-divider" aria-hidden="true" />
         <span className="brand-text">
@@ -133,7 +144,7 @@ function SiteHeader() {
           <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
         ))}
       </nav>
-      <a className="header-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
+      <a className="header-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer" aria-label="Falar no WhatsApp" data-cta="cabecalho-whatsapp">
         <WhatsAppIcon /> <span>Falar no WhatsApp</span>
       </a>
       <button
@@ -167,15 +178,19 @@ function App() {
           <div className="hero-inner section-shell">
             <div className="hero-copy" data-reveal="left">
               <p className="eyebrow">Crédito para máquinas e equipamentos</p>
-              <h1>Crédito para a sua próxima máquina, com <em>um bom plano</em>.</h1>
+              <h1>Planeje o crédito para conquistar <em>sua próxima máquina</em>.</h1>
               <p className="hero-text">
-                Carta de crédito por consórcio para construção, agronegócio e transporte, sem juros de
-                financiamento, com os custos apresentados desde a simulação e uma estratégia montada para a sua
-                operação.
+                Possibilidades de crédito para adquirir máquinas e equipamentos de construção, agronegócio e
+                transporte, com planejamento financeiro e orientação personalizada da Isabelly, em todo o Brasil.
+              </p>
+              <p className="hero-note">
+                Carta de crédito na modalidade consórcio: o crédito é liberado na contemplação, por sorteio ou lance.
               </p>
               <div className="hero-actions">
-                <a className="button button-primary" href="#simulacao">Planejar meu próximo passo</a>
-                <a className="text-link" href="#como-funciona">Entenda como funciona <span aria-hidden="true">→</span></a>
+                <a className="button button-primary" href={buildWhatsappLink(heroWhatsappMessage)} target="_blank" rel="noreferrer" data-cta="topo-whatsapp">
+                  <WhatsAppIcon /> Quero avaliar meu crédito
+                </a>
+                <a className="text-link" href="#possibilidades">Conhecer as possibilidades <span aria-hidden="true">→</span></a>
               </div>
             </div>
 
@@ -189,7 +204,7 @@ function App() {
           </div>
 
           <div className="section-shell">
-            <dl className="hero-facts" data-reveal>
+            <dl className="hero-facts" data-reveal="stagger">
               {heroFacts.map((fact) => (
                 <div key={fact.title}>
                   <dt>{fact.title}</dt>
@@ -197,36 +212,6 @@ function App() {
                 </div>
               ))}
             </dl>
-          </div>
-        </section>
-
-        <section className="steps section-shell" id="como-funciona">
-          <div className="section-heading" data-reveal>
-            <div>
-              <p className="eyebrow">Passo a passo</p>
-              <h2>Como funciona a sua carta de crédito.</h2>
-            </div>
-            <p>A carta de crédito vem de um consórcio. São quatro etapas, do plano à compra da máquina.</p>
-          </div>
-          <ol className="steps-grid" data-reveal>
-            {consortiumSteps.map((step, index) => (
-              <li key={step.title} className="step">
-                <div className="step-top">
-                  <StepIcon name={step.icon} />
-                  <span className="step-number">{String(index + 1).padStart(2, '0')}</span>
-                </div>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </li>
-            ))}
-          </ol>
-          <div className="steps-cta" data-reveal>
-            <p>
-              Não é aquele consórcio de pagar por anos esperando o sorteio: valor da carta, prazo e estratégia de
-              lance são planejados para tentar antecipar a contemplação. Mesmo assim, não há data garantida, e você
-              sabe disso antes de assinar.
-            </p>
-            <a className="text-link" href="#simulacao">Montar o meu plano com a Isabelly <span aria-hidden="true">→</span></a>
           </div>
         </section>
 
@@ -241,7 +226,7 @@ function App() {
               entender qual alternativa faz sentido para o seu negócio.
             </p>
           </div>
-          <ul className="paths-grid" data-reveal>
+          <ul className="paths-grid" data-reveal="stagger">
             {acquisitionPaths.map((path) => (
               <li key={path.title} className="path-card">
                 <StepIcon name={path.icon} />
@@ -252,7 +237,7 @@ function App() {
           </ul>
           <div className="paths-cta" data-reveal>
             <p>Conte qual máquina você procura. A Isabelly responde com as possibilidades para o seu caso.</p>
-            <a className="button button-primary" href={buildWhatsappLink(acquisitionWhatsappMessage)} target="_blank" rel="noreferrer">
+            <a className="button button-primary" href={buildWhatsappLink(acquisitionWhatsappMessage)} target="_blank" rel="noreferrer" data-cta="possibilidades-whatsapp">
               <WhatsAppIcon /> Quero avaliar minhas possibilidades
             </a>
           </div>
@@ -264,13 +249,14 @@ function App() {
               <p className="eyebrow">Flexibilidade</p>
               <h2 id="rhythm-title">Parcelas no ritmo da sua operação.</h2>
             </div>
-            <div className="rhythm-list" data-reveal>
+            <div className="rhythm-list" data-reveal="stagger">
               {paymentRhythms.map((rhythm) => (
                 <div key={rhythm.title} className="rhythm-item">
                   <h3>{rhythm.title}</h3>
                   <p>{rhythm.text}</p>
                 </div>
               ))}
+              <p className="rhythm-note">A periodicidade disponível depende do plano escolhido.</p>
             </div>
           </div>
         </section>
@@ -278,18 +264,33 @@ function App() {
         <section className="purchase section-shell" id="equipamentos">
           <div className="purchase-layout">
             <div className="purchase-visual" data-reveal="left">
-              <img className="purchase-photo-main" src={linhaAmarelaPhoto} alt="" loading="lazy" decoding="async" />
-              <img className="purchase-photo-inset" src={agroPhoto} alt="" loading="lazy" decoding="async" />
+              <img
+                className="purchase-photo-main"
+                src={linhaAmarelaPhoto}
+                srcSet={`${linhaAmarelaPhotoSmall} 560w, ${linhaAmarelaPhoto} 900w`}
+                sizes="(max-width: 860px) 90vw, 480px"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                className="purchase-photo-inset"
+                src={agroPhoto}
+                srcSet={`${agroPhotoSmall} 400w, ${agroPhoto} 900w`}
+                sizes="(max-width: 860px) 45vw, 240px"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
               <p className="image-disclaimer">Imagens meramente ilustrativas.</p>
             </div>
             <div className="purchase-content" data-reveal="right">
-              <p className="eyebrow">O que a carta de crédito pode comprar</p>
-              <h2>Uma carta de crédito, muitas possibilidades.</h2>
+              <p className="eyebrow">Máquinas e equipamentos</p>
+              <h2>Quais máquinas você pode adquirir?</h2>
               <p className="purchase-lead">
-                Máquinas novas ou seminovas, de concessionária, revenda ou particular, com nota fiscal e conforme as
-                regras do grupo.
+                Máquinas novas ou seminovas, de concessionária, revenda ou particular, com nota fiscal.
               </p>
-              <ul className="purchase-list">
+              <ul className="purchase-list" data-reveal="stagger">
                 {purchaseCategories.map((category, index) => (
                   <li key={category.title}>
                     <span className="purchase-index">{String(index + 1).padStart(2, '0')}</span>
@@ -300,15 +301,46 @@ function App() {
                     <a
                       className="purchase-action"
                       href="#simulacao"
+                      data-cta="categoria-simular"
                       onClick={() => setPresetMachineType({ value: category.machineType })}
-                      aria-label={`Simular consórcio para ${category.title.toLowerCase()}`}
+                      aria-label={`Simular carta de crédito para ${category.title.toLowerCase()}`}
                     >
                       Simular <span aria-hidden="true">→</span>
                     </a>
                   </li>
                 ))}
               </ul>
+              <p className="purchase-note">Os bens elegíveis dependem das regras e condições do plano contratado.</p>
             </div>
+          </div>
+        </section>
+
+        <section className="steps section-shell" id="como-funciona">
+          <div className="section-heading" data-reveal>
+            <div>
+              <p className="eyebrow">Como funciona</p>
+              <h2>Entenda as etapas para planejar sua aquisição.</h2>
+            </div>
+            <p>Na modalidade consórcio, a carta de crédito segue quatro etapas. Só a assinatura do contrato é presencial.</p>
+          </div>
+          <ol className="steps-grid" data-reveal="stagger">
+            {consortiumSteps.map((step, index) => (
+              <li key={step.title} className="step">
+                <div className="step-top">
+                  <StepIcon name={step.icon} />
+                  <span className="step-number">{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="steps-cta" data-reveal>
+            <p>
+              Valor da carta, prazo e estratégia de lance são planejados com você, de acordo com o objetivo e o
+              caixa da sua operação.
+            </p>
+            <a className="text-link" href="#simulacao" data-cta="como-funciona-simular">Montar meu plano com a Isabelly <span aria-hidden="true">→</span></a>
           </div>
         </section>
 
@@ -326,10 +358,10 @@ function App() {
               <span>Consultora · Grupo Capital</span>
             </p>
             <p className="about-text">
-              Meu trabalho é entender a sua operação, montar o plano junto com você e acompanhar cada etapa com
-              transparência.
+              Meu trabalho é entender a sua operação, apresentar as possibilidades e explicar as condições antes de
+              qualquer contratação. Você tira suas dúvidas diretamente comigo.
             </p>
-            <ul className="about-commitments">
+            <ul className="about-commitments" data-reveal="stagger">
               {serviceCommitments.map((item) => <li key={item}>{item}</li>)}
             </ul>
             {introVideo ? (
@@ -339,42 +371,28 @@ function App() {
             ) : (
               <Pending>Vídeo de apresentação (30 a 45 s): salvar como src/assets/pagina/isabelly-apresentacao.mp4</Pending>
             )}
-            <a className="text-link about-instagram" href={instagramLink} target="_blank" rel="noreferrer">
-              <InstagramIcon /> Acompanhe no Instagram
-            </a>
-          </div>
-        </section>
-
-        <section className="service section-shell">
-          <div className="section-heading" data-reveal>
-            <div>
-              <p className="eyebrow">O atendimento</p>
-              <h2>Do primeiro contato à assinatura.</h2>
+            <div className="about-actions">
+              <a className="button button-primary" href={buildWhatsappLink(aboutWhatsappMessage)} target="_blank" rel="noreferrer" data-cta="isabelly-whatsapp">
+                <WhatsAppIcon /> Conversar com a Isabelly
+              </a>
+              <a className="text-link" href={instagramLink} target="_blank" rel="noreferrer">
+                <InstagramIcon /> Acompanhe no Instagram
+              </a>
             </div>
-            <p>Quase tudo à distância. Só a assinatura do contrato é presencial.</p>
           </div>
-          <ol className="service-timeline" data-reveal>
-            {serviceSteps.map((step, index) => (
-              <li key={step.title}>
-                <span className="service-dot" aria-hidden="true">{index + 1}</span>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </li>
-            ))}
-          </ol>
         </section>
 
         <section className="safety section-shell">
           <div className="safety-panel" data-reveal>
             <div className="safety-intro">
               <p className="eyebrow">Segurança</p>
-              <h2>Como saber se é sério.</h2>
+              <h2>Entenda as condições antes de contratar.</h2>
               <p>
-                Consórcio é um produto regulado. Estas três verificações valem para qualquer proposta, inclusive a
-                nossa.
+                A modalidade consórcio é regulada pelo Banco Central. Estas verificações valem para qualquer proposta,
+                inclusive a nossa.
               </p>
             </div>
-            <div className="safety-list">
+            <div className="safety-list" data-reveal="stagger">
               {safetyPoints.map((point, index) => (
                 <div key={point.title} className="safety-item">
                   <span className="safety-number">{String(index + 1).padStart(2, '0')}</span>
@@ -385,8 +403,9 @@ function App() {
                 </div>
               ))}
               <p className="safety-admin">
-                {administradoraText ? `Administradora dos grupos: ${administradoraText}.` : (
-                  <Pending fallback="Os dados da administradora dos grupos (razão social, CNPJ e autorização do Banco Central) constam na proposta e no contrato.">
+                O Grupo Capital faz a comercialização e o atendimento.{' '}
+                {administradoraText ? `Os grupos são administrados por ${administradoraText}.` : (
+                  <Pending fallback="Os grupos são administrados pela administradora indicada na proposta e no contrato, com razão social e CNPJ. Confira a autorização dela no site do Banco Central.">
                     Administradora: preencher razão social, CNPJ e nº de autorização do Banco Central em src/content.js
                   </Pending>
                 )}
@@ -400,7 +419,10 @@ function App() {
             <div className="faq-aside" data-reveal>
               <p className="eyebrow">Dúvidas frequentes</p>
               <h2>As perguntas que todo cliente faz.</h2>
-              <p>Respostas diretas. Se a sua não estiver aqui, pergunte no WhatsApp.</p>
+              <p>Respostas diretas para o que os clientes mais perguntam antes de começar.</p>
+              <a className="text-link faq-whatsapp" href={buildWhatsappLink(faqWhatsappMessage)} target="_blank" rel="noreferrer" data-cta="duvidas-whatsapp">
+                <WhatsAppIcon /> Tirar minhas dúvidas pelo WhatsApp
+              </a>
             </div>
             <div className="faq-list" data-reveal>
               {frequentlyAskedQuestions.map((item, index) => {
@@ -443,7 +465,7 @@ function App() {
                 enviar à Isabelly.
               </p>
               <div className="simulation-signature">
-                <img src={isabellyPhoto} alt="" width="56" height="56" loading="lazy" />
+                <img src={isabellyAvatar} alt="" width="56" height="56" loading="lazy" />
                 <div>
                   <strong>Isabelly Rufino</strong>
                   <span>Consultora · Grupo Capital</span>
@@ -465,21 +487,28 @@ function App() {
             </div>
           </div>
           <div className="footer-links">
-            <a href={whatsappLink} target="_blank" rel="noreferrer"><WhatsAppIcon /> WhatsApp</a>
+            <a href={whatsappLink} target="_blank" rel="noreferrer" data-cta="rodape-whatsapp"><WhatsAppIcon /> WhatsApp</a>
             <a href={instagramLink} target="_blank" rel="noreferrer"><InstagramIcon /> Instagram</a>
           </div>
         </div>
-        <p className="footer-legal">
-          Consórcio administrado por{' '}
-          {administradoraText ?? (
-            <Pending fallback="administradora indicada na proposta e no contrato">razão social, CNPJ e autorização da administradora</Pending>
-          )}
-          . Comercialização: Grupo Capital
-          {company.grupoCapitalCnpj ? `, CNPJ ${company.grupoCapitalCnpj}` : <Pending>, CNPJ do Grupo Capital</Pending>}. O
-          consórcio é regido pela Lei 11.795/2008 e fiscalizado pelo Banco Central do Brasil. A contemplação ocorre
-          por sorteio ou lance e não tem data garantida. Contratação sujeita a análise de crédito e às regras do
-          grupo. Imagens meramente ilustrativas.
-        </p>
+        <div className="footer-legal">
+          <p><strong>Modalidade:</strong> consórcio de bens, regido pela Lei 11.795/2008 e fiscalizado pelo Banco Central do Brasil.</p>
+          <p>
+            <strong>Administradora dos grupos:</strong>{' '}
+            {administradoraText ?? (
+              <Pending fallback="indicada na proposta e no contrato">razão social, CNPJ e autorização da administradora</Pending>
+            )}
+            .
+          </p>
+          <p>
+            <strong>Comercialização e atendimento:</strong> Grupo Capital
+            {company.grupoCapitalCnpj ? `, CNPJ ${company.grupoCapitalCnpj}` : <Pending>, CNPJ do Grupo Capital</Pending>}.
+          </p>
+          <p>
+            A contemplação ocorre por sorteio ou lance, conforme as regras do grupo, sem data garantida. Contratação
+            sujeita a análise de crédito e às condições do contrato. Imagens meramente ilustrativas.
+          </p>
+        </div>
       </footer>
 
       <a
@@ -488,6 +517,7 @@ function App() {
         target="_blank"
         rel="noreferrer"
         aria-label="Falar com Isabelly pelo WhatsApp"
+        data-cta="flutuante-whatsapp"
         tabIndex={floatingHidden ? -1 : undefined}
       >
         <WhatsAppIcon />

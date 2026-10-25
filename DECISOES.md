@@ -4,6 +4,7 @@
 
 - A página vende **consórcio de máquinas pesadas**, não máquinas. A Isabelly é consultora do Grupo Capital; os grupos são administrados pela Alpha.
 - Diretrizes de conteúdo: o produto é chamado de consórcio com clareza, a contemplação não tem data garantida e a contratação é sujeita a análise.
+- Comunicação comercial centrada em "crédito para aquisição de máquinas" e "carta de crédito" (pedido da Isabelly). A expressão "na modalidade consórcio" continua no topo da página, no passo a passo, na primeira pergunta das dúvidas frequentes, na seção de segurança e no rodapé. A forma de liberação (contemplação por sorteio ou lance, sem data garantida) aparece na seção "Possibilidades".
 - A página não apresenta estoque de máquinas, não oferece modalidades além do consórcio e só traz números e informações confirmados. Fotos de máquinas são ilustrativas e devem ser próprias ou licenciadas.
 - Público principal: mineração (sobretudo Pará), além de agro, obra e transporte. Tráfego pago.
 - Tom: formal e próximo. Números de taxa e parcela ficam como "consulte" (resposta 6.3 do roteiro).
@@ -19,17 +20,26 @@
 
 ## Estrutura
 
-1. Topo: imagem ou vídeo de fundo, título, cartão da Isabelly e três destaques
-2. Como funciona (4 etapas, com ícones) e chamada para a simulação
-3. Consórcio x financiamento (tabela no desktop, cartões no celular)
-4. Parcelas no ritmo da sua operação (mensal, semestral, anual)
-5. O que a carta de crédito pode comprar (cada categoria pré-seleciona a simulação)
-6. Quem cuida do seu plano (Isabelly, compromissos e vídeo opcional)
-7. O atendimento (etapas reais, com assinatura presencial)
-8. Segurança: como saber se é sério
-9. Dúvidas frequentes
-10. Simulação em 5 etapas, que abre o WhatsApp com a mensagem pronta
-11. Rodapé com avisos legais
+A ordem segue: proposta → possibilidades → parcelas → o que comprar → como funciona → quem atende → segurança → dúvidas → simulação.
+
+1. Topo: imagem ou vídeo de fundo, título, aviso da modalidade, botão de WhatsApp, cartão da Isabelly e três destaques
+2. Opções de crédito: 3 blocos + WhatsApp
+3. Parcelas no ritmo da sua operação (mensal, semestral, anual)
+4. Quais máquinas você pode adquirir? (cada categoria pré-seleciona a simulação)
+5. Como funciona: 4 etapas, já incluindo o atendimento (conversa e simulação, análise e assinatura, contemplação, uso do crédito). A antiga seção "O atendimento" foi unida a esta, porque repetia uma lista parecida.
+6. Quem cuida do seu plano (Isabelly, compromissos, vídeo opcional + WhatsApp)
+7. Segurança: entenda as condições antes de contratar
+8. Dúvidas frequentes (+ WhatsApp)
+9. Simulação em 5 etapas, com confirmação e link de reserva para o WhatsApp
+10. Rodapé com avisos legais
+
+Cada ponto de contato do WhatsApp tem sua própria mensagem inicial (em `src/content.js`) e um atributo `data-cta`, para medir os cliques quando houver uma ferramenta de análise.
+
+## Desempenho
+
+- Fontes do Google carregadas sem bloquear a renderização, com fontes de reserva ajustadas (Georgia/Arial) para o texto não "pular" na troca.
+- Imagens com versões menores para o celular (`srcset`).
+- Lighthouse (build de produção, 25/10/2026): celular 98 de desempenho, desktop 100; CLS 0,008 no celular.
 
 ## Organização do código
 
@@ -41,7 +51,12 @@
 
 - Razão social, CNPJ e número de autorização no Banco Central da administradora (Alpha): preencher `company` em `src/content.js`.
 - CNPJ do Grupo Capital (mesmo lugar) e logo em arquivo.
-- Confirmar com a Isabelly: resposta da FAQ "Posso usar minha máquina ou meu veículo no negócio?", a frase "o consórcio pode não ser o melhor caminho" e os três compromissos da seção "Quem cuida do seu plano".
+- Confirmar com a Isabelly: resposta da FAQ "Posso usar minha máquina ou meu veículo no negócio?" e os três compromissos da seção "Quem cuida do seu plano".
+- Confirmar se a simulação mostra todos os custos (taxa de administração, fundo de reserva, seguros), como diz o destaque "Você conhece todos os custos na simulação" no topo.
+- Confirmar se há restrições para o uso da carta (idade máxima da máquina, tipos de bem aceitos, garantias exigidas na liberação).
+- Confirmar se as parcelas mensais, semestrais e anuais valem para todos os planos ou só para alguns (a página diz "A periodicidade disponível depende do plano escolhido").
+- Confirmar os critérios da administradora para cliente com nome negativado (adesão e liberação do crédito).
+- Primeira tela: título, subtítulo e botões sem "consórcio"; a linha "Carta de crédito na modalidade consórcio…" fica logo acima do botão principal, para ser vista antes do primeiro clique, inclusive no celular.
 - Confirmar se o reajuste da carta e das parcelas e a análise da administradora antes da liberação seguem o contrato da Alpha (textos em `src/content.js`).
 - Esclarecer o que é a "entrada mínima de 20%" no contrato (lance? antecipação de parcelas?). Até lá, a página não fala em entrada.
 - Vídeo de fundo do topo (`hero.mp4`, 8 a 10 s) e vídeo de apresentação (`isabelly-apresentacao.mp4`, 30 a 45 s). Especificações em `src/assets/maquinas/LEIA-ME.txt`.

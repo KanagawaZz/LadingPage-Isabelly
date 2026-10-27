@@ -1,0 +1,16 @@
+Fontes usadas na página (formato WOFF2)
+
+- Newsreader (Production Type): títulos e elementos editoriais
+  newsreader-latin.woff2: variável, pesos 500 a 600, tamanho óptico 16 a 72
+  newsreader-italic-latin.woff2: itálico 500, tamanho óptico fixo em 60 (usado só em tamanhos grandes)
+- DM Sans (Colophon Foundry): texto, navegação, botões e formulário
+  dm-sans-latin.woff2: variável, pesos 400 a 700, tamanho óptico fixo em 14
+
+Os arquivos foram reduzidos (de 257 KB para 118 KB) com o fontTools: eixos limitados aos
+pesos usados na página e caracteres limitados ao latim básico, ao Latin-1 (todos os acentos
+do português) e à pontuação usada (aspas curvas, travessão, reticências, €).
+Para usar um peso novo, baixe de novo a fonte original e refaça o recorte.
+
+Licença: SIL Open Font License 1.1, que permite uso comercial e redistribuição.
+https://openfontlicense.org
+Origem: Google Fonts (https://fonts.google.com).

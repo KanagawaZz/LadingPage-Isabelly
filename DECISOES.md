@@ -35,11 +35,20 @@ A ordem segue: proposta → possibilidades → parcelas → o que comprar → co
 
 Cada ponto de contato do WhatsApp tem sua própria mensagem inicial (em `src/content.js`) e um atributo `data-cta`, para medir os cliques quando houver uma ferramenta de análise.
 
+## Tipografia (26/10/2026)
+
+- Newsreader nos títulos e elementos editoriais (citação, nomes, números das etapas, monograma "IR" em itálico) e DM Sans no texto, na navegação, nos botões e no formulário.
+- Substituiu Cormorant + Allura: a Cormorant era fina demais sobre a foto e no celular, tinha o acento do "ê" deslocado e, junto com a caligrafia Allura, puxava a marca para moda e beleza.
+- Escala em tokens no início de `src/styles.css`. **Regra: todo `font-size` usa um token** (`--text-display`, `--text-h2`, `--text-quote`, `--text-serif-title`, `--text-serif-label`, `--text-serif-number`, `--text-lead`, `--text-h3`, `--text-body`, `--text-ui`, `--text-small`, `--text-eyebrow`, `--text-input`). A única exceção é o monograma "IR", que é logotipo. As variações de celular ficam nos próprios tokens (bloco `:root` da media query de 760px), não em cada componente.
+- Pesos: Newsreader 500 nos títulos e números, 600 nos nomes e destaques; DM Sans 400 no texto, 600 em links e rótulos do formulário, 700 nos botões e rótulos em caixa alta.
+- "sua próxima máquina" fica na mesma linha no desktop e em celulares a partir de 385px.
+
 ## Desempenho
 
-- Fontes do Google carregadas sem bloquear a renderização, com fontes de reserva ajustadas (Georgia/Arial) para o texto não "pular" na troca.
-- Imagens com versões menores para o celular (`srcset`).
-- Lighthouse (build de produção, 25/10/2026): celular 98 de desempenho, desktop 100; CLS 0,008 no celular.
+- Fontes hospedadas no próprio projeto (`public/fonts`), sem chamadas ao Google, recortadas com fontTools para os pesos e caracteres usados: 118 KB no total (os arquivos originais tinham 257 KB). Detalhes em `public/fonts/LEIA-ME.txt`.
+- Fontes de reserva ajustadas (Georgia/Arial) para o texto não "pular" na troca.
+- Pré-carga das três fontes e da foto do topo; imagens menores para o celular (`srcset`).
+- Lighthouse (build de produção, 26/10/2026): celular 94 de desempenho (LCP 3,0 s, CLS 0), desktop 99–100. Com a Cormorant era 98 no celular; a diferença é o custo da nova fonte numa rede 4G lenta simulada.
 
 ## Organização do código
 
